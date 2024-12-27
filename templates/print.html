@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/prints.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}" />
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500&display=swap" rel="stylesheet">
+  <title>Add Print</title>
+</head>
+
+<body>
+
+  <!-- Print Form -->
+  <div class="form-container">
+
+    <h1>Material Usage Form</h1>
+    <form id="printForm">
+      <label for="model_name" id="model_name_label">Model Name:</label>
+      <input type="text" id="model_name" name="model_name" class="input-field" required><br><br>
+      <div id="material-container">
+        <div class="material-item">
+          <label for="material_name">Material Name:</label>
+          <select id="material_name" class="material-name"></select>
+
+          <label for="material_color">Material Color:</label>
+          <select id="material_color" class="material-color"></select>
+
+          <label for="material_usage">Usage (grams):</label>
+          <input id="material-usage" type="text" class="input-field material-usage" name="material_usage[]"
+            placeholder="Usage" required>
+          <button type="button" id="add-material-btn" class="remove-material-btn">+</button>
+        </div>
+
+      </div>
+      <div>
+        <label for="material_cost">Material Cost:</label>
+        <span id="material_cost" class="view-field"></span><br><br>
+        <label for="total_use">Total Use (in grams):</label>
+        <span id="total_use" class="view-field"></span><br><br>
+      </div>
+
+
+      <!-- Add More Button -->
+      <label for="customer_name">Customer Name:</label>
+      <input type="text" id="customer_name" name="customer_name" class="input-field" required><br><br>
+
+      <label for="selling_price">Selling Price:</label>
+      <input type="number" id="selling_price" name="selling_price" step="0.01" class="input-field" required><br><br>
+
+      <label for="print_time_hours">Print Time (Hours)</label>
+      <input type="number" id="print_time_hours" name="print_time_hours" step="1" class="input-field" value="0">
+      <br>
+
+      <label for="print_time_minutes">Print Time (Minutes)</label>
+      <input type="number" id="print_time_minutes" name="print_time_minutes" step="1" class="input-field" value="0"
+        required>
+      <br><br>
+
+
+
+      <button type="submit" class="submit-btn">Add Print</button>
+    </form>
+  </div>
+
+  <nav>
+    <a href="{{ url_for('add_material') }}">Add Materials</a>
+    <a href="{{ url_for('sales') }}">View Sales</a>
+  </nav>
+
+  <script src="{{ url_for('static', filename='scripts/prints.js') }}"></script>
+  <script src="{{ url_for('static', filename='scripts/utils.js') }}"></script>
+
+</body>
+
+</html>
