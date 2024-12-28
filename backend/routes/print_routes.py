@@ -90,3 +90,32 @@ def get_sales():
         return jsonify({"sales": serialized_data}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@print_bp.route('/delete_sale/<int:saleId>', methods=['DELETE'])
+def delete_sale(saleId):
+    try:
+        response, status_code = Print.delete_print(saleId)
+        return response, status_code
+
+    except Exception as e:
+        return {"error": f"An unexpected error occurred: {str(e)}"}, 500
+
+
+@print_bp.route('/update_sale/<int:sale_id>', methods=['PUT'])
+def update_sale(sale_id):
+    try:
+        data = request.get_json()
+        print('Data:', data)
+        response , status_code = Print.update_sale(
+            sale_id,
+            model_name=data.get('model_name'),
+            customer_name=data.get('customer_name'),
+            selling_price=data.get('selling_price'),
+            selling_date=data.get('selling_date')
+        )
+
+        return response, status_code
+
+    except Exception as e:
+        print(str(e))
+        return jsonify({'message': 'An error occurred while updating the sale.'}), 500

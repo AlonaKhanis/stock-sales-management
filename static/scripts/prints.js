@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const alertBox = createAlertBox(materialForm);
 
 
-    // Constants for materials and colors
     const availableMaterials = getAvailableMaterials();
     const availableColors = getAvailableColors();
 
@@ -36,36 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     firstMaterialUse.addEventListener('blur', updateMaterialData);
     materialForm.addEventListener('submit', handleFormSubmit);
 
-    /**
-     * Creates and appends an alert box to the form.
-     */
-    function createAlertBox(form) {
-        const alertBox = document.createElement('div');
-        alertBox.style.display = 'none';
-        alertBox.style.padding = '10px';
-        alertBox.style.marginTop = '10px';
-        alertBox.style.borderRadius = '5px';
-        form.insertBefore(alertBox, document.getElementById('model_name_label'));
-        return alertBox;
-    }
 
-    /**
-     * Creates a select dropdown with provided options and appends them to the given elements.
-     */
-    function createSelectWithOptions(dropdowns, options) {
-        dropdowns.forEach(dropdown => {
-            options.forEach(option => {
-                const opt = document.createElement('option');
-                opt.value = option;
-                opt.textContent = option;
-                dropdown.appendChild(opt);
-            });
-        });
-    }
-
-    /**
-     * Adds a new material item to the form.
-     */
     function addMaterialItem() {
         const materialItem = document.createElement('div');
         materialItem.classList.add('material-item');
@@ -99,9 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
-    /**
-     * Updates the materials data and calculates costs.
-     */
+
     function updateMaterialData() {
         const usageInputs = document.querySelectorAll('.material-usage');
         const materialNameInputs = document.querySelectorAll('.material-name');
@@ -129,22 +97,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     spanCost.textContent = parseFloat(data.total_cost || 0).toFixed(2);
                     spanTotalUse.textContent = materialsData.reduce((acc, curr) => acc + curr.usage, 0).toFixed(2);
                 } else {
-                    formAlert(`Error: ${data.error}`, alertBox);
+                    formAlert(`Error: ${data.error}`, alertBox, { ok: false });
                 }
             })
-            .catch(error => console.log('error:', error));
+            .catch(error => formAlert(`Error: ${error}`, alertBox, { ok: false }));
     }
 
-    /**
-     * Handles form submission.
-     */
     function handleFormSubmit(event) {
         event.preventDefault();
 
-        let hours = parseFloat(document.getElementById('print_time_hours').value) || 0;  // Default to 0 if empty
-        let minutes = parseFloat(document.getElementById('print_time_minutes').value) || 0;  // Default to 0 if empty
+        let hours = parseFloat(document.getElementById('print_time_hours').value) || 0;
+        let minutes = parseFloat(document.getElementById('print_time_minutes').value) || 0;
 
-        // Convert hours to minutes and add the minutes
         let totalTimeInMinutes = (hours * 60) + minutes;
 
         const data = {
@@ -157,7 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
             materialsData,
         };
 
-        console.log(data);
 
         fetch('/api/add_print', {
             method: 'POST',
@@ -176,6 +139,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     formAlert(`Error: ${data.message}`, alertBox, { ok: false });
                 }
             })
-            .catch(error => formAlert(`Error: ${error}`, alertBox));
+            .catch(error => formAlert(`Error: ${error}`, alertBox, { ok: false }));
     }
 });

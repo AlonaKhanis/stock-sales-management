@@ -108,8 +108,14 @@
   border: 1px solid #060606;
   text-align: center;
   padding: 5px;
-  justify-content: center; /* Center the buttons horizontally */
+  justify-content: center;
   align-items: center;
+}
+
+#materialTable tbody tr:hover {
+  transform: translateY(-1px);
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 }
 
 @media screen and (max-width: 950px) {

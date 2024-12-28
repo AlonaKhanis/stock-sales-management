@@ -4,7 +4,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 
 
-from datetime import date
+from datetime import date, datetime
 
 class Print(db.Model):
     __tablename__ = 'prints'
@@ -50,7 +50,6 @@ class Print(db.Model):
             print_time_in_minutes = cls.convert_print_time(print_time)
 
             if print_time_in_minutes is None:
-                print("Error: Invalid print time input.")
                 return None, "Invalid print time input."
 
             if isinstance(print_date, str):
@@ -75,11 +74,9 @@ class Print(db.Model):
 
         except SQLAlchemyError as e:
             db.session.rollback()
-            print(f"Error occurred while saving to database: {str(e)}")
             return None, 'Database error: ' + str(e)
         except Exception as e:
             db.session.rollback()
-            print(f"An unexpected error occurred: {str(e)}")
             return None, 'An unexpected error occurred: ' + str(e)
 
 
@@ -100,3 +97,47 @@ class Print(db.Model):
             'print_date': self.print_date,
             'profit': self.profit
         }
+
+    @classmethod
+    def delete_print(cls , printId):
+        try:
+            print_to_delete = cls.query.get(printId)
+            if not print_to_delete:
+                return {"message" : f"Print with ID {printId} not found."}, 404
+            
+            db.session.delete(print_to_delete)
+            db.session.commit()
+            return {"message": f"Print with ID {printId} has been deleted successfully."}, 200
+        
+        except Exception as e:
+            db.session.rollback()
+            return {"error": f"An error occurred: {str(e)}"}, 500
+
+        
+    @classmethod
+    def update_sale(cls, sale_id, model_name=None, customer_name=None, selling_price=None , selling_date=None):
+        try:
+            sale = cls.query.get(sale_id)
+            if sale:
+                if model_name is not None:
+                    sale.model_name = model_name
+                if customer_name is not None:
+                    sale.customer_name = customer_name
+                if selling_price is not None:
+                    sale.selling_price = selling_price
+                if selling_date is not None:
+                    selling_date_str = selling_date
+                    selling_date = datetime.strptime(selling_date_str, "%Y-%m-%d").date()
+                    sale.print_date = selling_date
+
+                db.session.commit()
+                return {"message": f"Print with ID {sale_id} has been updates successfully."}, 200
+            
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            print(f"Error occurred while saving to database: {str(e)}")
+            return None, 'Database error: ' + str(e)
+        except Exception as e:
+            db.session.rollback()
+            print(f"An unexpected error occurred: {str(e)}")
+            return None, 'An unexpected error occurred: ' + str(e)

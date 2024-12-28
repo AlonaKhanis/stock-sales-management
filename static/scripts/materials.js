@@ -1,3 +1,4 @@
+
 'use strict';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -7,13 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const pricePerKgInput = document.getElementById('price_per_kg');
     const filterColor = document.getElementById('filterColor');
     const filterMaterial = document.getElementById('filterMaterial');
-
-    const alertBox = document.createElement('div');
-    alertBox.style.display = 'none';
-    alertBox.style.padding = '10px';
-    alertBox.style.marginTop = '10px';
-    alertBox.style.borderRadius = '5px';
-    materialForm.appendChild(alertBox);
+    const alertBox = createAlertBox(materialForm);
 
     const materialTableBody = document.querySelector("#materialTable tbody");
 
@@ -76,17 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function formatStockAmount(amount) {
-
-        if (typeof amount !== 'number' || isNaN(amount)) {
-            return 'Invalid amount';
-        }
-
-        if (amount < 1) {
-            return `${(amount * 1000).toFixed(2)}g`;
-        }
-        return `${amount.toFixed(2)}kg`;
-    }
 
     function filterMaterials() {
         const colorFilter = filterColor.value.toLowerCase();

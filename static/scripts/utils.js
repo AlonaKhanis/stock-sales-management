@@ -1,48 +1,115 @@
-const availableColors = ['Red', 'Blue', 'Green', 'Yellow', 'Black', 'White'];
+'use strict';
+
 const availableMaterials = ['PLA', 'ABS', 'PETG', 'TPU'];
-
-
-//TODO: interactive color and material selection
-// TODO: Change succsses message color to green
-
 function getAvailableColors() {
-    return availableColors;
+    return colors.map(color => color.name);
 }
 
 function getAvailableMaterials() {
     return availableMaterials;
 }
 
-function createSelectWithOptions(selectElement, options) {
-    selectElement.forEach(selectElement => {
-        options.forEach(material => {
-            const option = document.createElement('option');
-            option.value = material;
-            option.textContent = material;
-            selectElement.appendChild(option);
+function createSelectWithOptions(selectElement, options, type = 'material') {
+    selectElement.innerHTML = '';
+    const defaultOption = document.createElement('option');
+    defaultOption.textContent = `Select ${type}`;
+    selectElement.appendChild(defaultOption);
+
+    options.forEach(option => {
+        const optionElement = document.createElement('option');
+        optionElement.value = option;
+        optionElement.textContent = option;
+        selectElement.appendChild(optionElement);
+    });
+}
+
+function formAlert(message, alertBox, response) {
+    alertBox.textContent = message;
+    alertBox.style.display = 'block';
+    alertBox.style.color = 'white';
+
+    if (response && response.ok) {
+        alertBox.style.backgroundColor = 'green';
+    } else {
+        alertBox.style.backgroundColor = 'red';
+    }
+
+
+    setTimeout(() => {
+        alertBox.textContent = '';
+        alertBox.style.display = 'none';
+    }, 3000);
+}
+
+
+function createAlertBox(form) {
+    const alertBox = document.createElement('div');
+    alertBox.style.display = 'none';
+    alertBox.style.padding = '10px';
+    alertBox.style.marginTop = '10px';
+    alertBox.style.borderRadius = '5px';
+    form.insertBefore(alertBox, document.getElementById('model_name_label'));
+    return alertBox;
+}
+
+
+
+function createSelectWithOptions(dropdowns, options) {
+    dropdowns.forEach(dropdown => {
+        options.forEach(option => {
+            const opt = document.createElement('option');
+            opt.value = option;
+            opt.textContent = option;
+            dropdown.appendChild(opt);
         });
     });
 }
 
+function formatStockAmount(amount, isForSale = false) {
+    if (typeof amount !== 'number' || isNaN(amount)) {
+        return 'Invalid amount';
+    }
+    if (isForSale) {
+        if (amount >= 1000) {
+            return `${(amount / 1000).toFixed(2)}kg`;
+        }
+        return `${amount.toFixed(0)}g`;
+    }
+    if (amount < 1) {
+        return `${(amount * 1000).toFixed(2)}g`;
+    }
+    return `${amount.toFixed(2)}kg`;
+}
 
-function formAlert(message, alertBox, response) {
-    // Set message text and make alert box visible
-    alertBox.textContent = message;
-    alertBox.style.display = 'block';
-    alertBox.style.color = 'white'; // Assuming white text color for both success and error
 
-    // Check if response is valid and has the 'ok' property
-    if (response && response.ok) {
-        console.log('Setting background to green for success');
-        alertBox.style.backgroundColor = 'green';
-    } else {
-        console.log('Setting background to red for error');
-        alertBox.style.backgroundColor = 'red';
+let months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+];
+
+function generateMonthYearOptions() {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth();
+    let nextMonth = currentMonth + 1;
+    let nextYear = currentYear;
+
+    if (currentMonth === 11) {
+        nextMonth = 0;
+        nextYear += 1;
     }
 
-    // Hide alert box after 2 seconds
-    setTimeout(() => {
-        alertBox.textContent = ''; // Clear message
-        alertBox.style.display = 'none'; // Hide alert box
-    }, 2000);
+    months.forEach((month, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = month;
+        filterMonth.appendChild(option);
+    });
+
+    for (let year = currentYear; year <= nextYear; year++) {
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        filterYear.appendChild(option);
+    }
 }

@@ -12,10 +12,9 @@
 
 <body>
 
-  <!-- Print Form -->
   <div class="form-container">
 
-    <h1>Material Usage Form</h1>
+    <h1>Add Print</h1>
     <form id="printForm">
       <label for="model_name" id="model_name_label">Model Name:</label>
       <input type="text" id="model_name" name="model_name" class="input-field" required><br><br>
@@ -41,8 +40,6 @@
         <span id="total_use" class="view-field"></span><br><br>
       </div>
 
-
-      <!-- Add More Button -->
       <label for="customer_name">Customer Name:</label>
       <input type="text" id="customer_name" name="customer_name" class="input-field" required><br><br>
 
@@ -71,6 +68,8 @@
 
   <script src="{{ url_for('static', filename='scripts/prints.js') }}"></script>
   <script src="{{ url_for('static', filename='scripts/utils.js') }}"></script>
+  <script src="{{ url_for('static', filename='colors.js') }}"></script>
+
 
 </body>
 
