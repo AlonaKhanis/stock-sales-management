@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <td class="editable" data-id="${sale.id}">${formatStockAmount(sale.total_use, true)}</td>
                 <td class="editable" data-id="${sale.id}">${sale.selling_price}</td>
                 <td class="editable" data-id="${sale.id}">${formattedPrintTime}</td>
-                <td class="editable" data-id="${sale.id}">🪙${sale.profit}</td>
+                <td class="editable" data-id="${sale.id}">₪${sale.profit}</td>
                 <td class="editable" data-id="${sale.id}">${saleDate}</td>
             `;
 
@@ -226,9 +226,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const totalSale = sales.reduce((total, sale) => total + sale.selling_price, 0);
         const totalProfit = sales.reduce((total, sale) => total + sale.profit, 0);
 
-        totalCostElement.textContent = `${totalCost.toFixed(2)}`;
-        totalSaleElement.textContent = `${totalSale.toFixed(2)}`;
-        totalProfitElement.textContent = `${totalProfit.toFixed(2)}`;
+        totalCostElement.textContent = `₪${totalCost.toFixed(2)}`;
+        totalSaleElement.textContent = `₪${totalSale.toFixed(2)}`;
+        totalProfitElement.textContent = `₪${totalProfit.toFixed(2)}`;
     }
 
 
@@ -236,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function () {
     generateMonthYearOptions();
     fetchSales();
 
-    //filter
+
 
     document.getElementById('filterModel').addEventListener('input', function () {
         filterSales();

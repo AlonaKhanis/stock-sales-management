@@ -14,11 +14,11 @@
 <body>
   <div class="mini_material-form">
     <label>Total Material cost:</label>
-    <span id="total-cost">€0.00</span><br><br>
+    <span id="total-cost">0.00</span><br><br>
     <label>Total Revenue:</label>
-    <span id="total-sale">€0.00</span><br><br>
+    <span id="total-sale">0.00</span><br><br>
     <label>Total Profit:</label>
-    <span id="total-profit">€0.00</span><br><br>
+    <span id="total-profit">0.00</span><br><br>
   </div>
 
   <div class="material-form">
@@ -99,12 +99,18 @@
   </div>
 
   <nav>
-    <a href="{{ url_for('add_material') }}">Add Materials</a>
-    <a href="{{ url_for('print_view') }}">Add Print</a>
+    <a href="{{ url_for('add_material') }}">Stock</a>
+    <a href="{{ url_for('print_view') }}">Print</a>
+
+
   </nav>
 
   <script src="{{ url_for('static', filename='scripts/sales.js') }}"></script>
   <script src="{{url_for('static' , filename='scripts/utils.js')}}"></script>
+  <script src="{{url_for('static' , filename='scripts/addStock.js')}}"></script>
+  <script src="{{ url_for('static', filename='colors.js') }}"></script>
+
+
 </body>
 
 </html>

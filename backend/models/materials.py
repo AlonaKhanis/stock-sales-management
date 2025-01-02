@@ -83,3 +83,26 @@ class Material(db.Model):
     def save(self):
         """Commit changes to the database."""
         db.session.commit()
+
+    @classmethod
+    def update_stock(cls, stock_id, stock_change):
+        try:
+            # Ensure stock_change is a float
+            stock_change = float(stock_change)  # Convert the stock change to a float
+            print(stock_change)
+            
+            stock = cls.query.get(stock_id)
+            if stock:
+                new_stock_amount = stock.stock_amount + stock_change  # Add the float change to the current stock
+                if new_stock_amount < 0:
+                    return {"error": "Stock amount cannot be negative"}, 400
+
+                stock.stock_amount = new_stock_amount  # Update the stock amount in the database
+                db.session.commit()
+                return {"message": "Stock updated successfully", "new_stock_amount": new_stock_amount}, 200
+            else:
+                return {"error": "Stock not found"}, 404
+        except Exception as e:
+            db.session.rollback()
+            return {"error": f"An error occurred: {str(e)}"}, 500
+

@@ -105,7 +105,7 @@ def delete_sale(saleId):
 def update_sale(sale_id):
     try:
         data = request.get_json()
-        print('Data:', data)
+      
         response , status_code = Print.update_sale(
             sale_id,
             model_name=data.get('model_name'),

@@ -1,12 +1,14 @@
 'use strict';
 
 const availableMaterials = ['PLA', 'ABS', 'PETG', 'TPU'];
-function getAvailableColors() {
-    return colors.map(color => color.name);
-}
+
 
 function getAvailableMaterials() {
     return availableMaterials;
+}
+
+function getAvailableColors() {
+    return colors.map(color => color.name);
 }
 
 function createSelectWithOptions(selectElement, options, type = 'material') {
@@ -48,7 +50,7 @@ function createAlertBox(form) {
     alertBox.style.padding = '10px';
     alertBox.style.marginTop = '10px';
     alertBox.style.borderRadius = '5px';
-    form.insertBefore(alertBox, document.getElementById('model_name_label'));
+    // form.insertBefore(alertBox, document.getElementById('model_name_label'));
     return alertBox;
 }
 
@@ -113,3 +115,8 @@ function generateMonthYearOptions() {
         filterYear.appendChild(option);
     }
 }
+
+
+
+
+

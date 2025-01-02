@@ -6,14 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/prints.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/edit.css') }}" />
+
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500&display=swap" rel="stylesheet">
   <title>Add Print</title>
 </head>
 
 <body>
-
+  <div id="modal" class="modal"></div>
   <div class="form-container">
-
     <h1>Add Print</h1>
     <form id="printForm">
       <label for="model_name" id="model_name_label">Model Name:</label>
@@ -62,15 +63,13 @@
   </div>
 
   <nav>
-    <a href="{{ url_for('add_material') }}">Add Materials</a>
-    <a href="{{ url_for('sales') }}">View Sales</a>
+    <a href="{{ url_for('add_material') }}">Stock</a>
+    <a href="{{ url_for('sales') }}">Sales</a>
   </nav>
 
   <script src="{{ url_for('static', filename='scripts/prints.js') }}"></script>
   <script src="{{ url_for('static', filename='scripts/utils.js') }}"></script>
   <script src="{{ url_for('static', filename='colors.js') }}"></script>
-
-
 </body>
 
 </html>

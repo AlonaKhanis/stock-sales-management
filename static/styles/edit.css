@@ -78,26 +78,20 @@
 }
 
 /* Success and Error Alert Styles */
-.alert {
+.alert-box {
+  display: none;
   padding: 10px;
-  margin-top: 20px;
+  margin-top: 10px;
+  border-radius: 5px;
+  color: white;
+  font-size: 14px;
   text-align: center;
-  font-weight: bold;
 }
 
-.alert.success {
-  background-color: #28a745;
-  color: white;
+.alert-box.success {
+  background-color: green;
 }
 
-.alert.error {
-  background-color: #dc3545;
-  color: white;
-}
-
-.alertBox {
-  display: "none";
-  padding: "10px";
-  margin-top: "10px";
-  border-radius: "5px";
+.alert-box.error {
+  background-color: red;
 }

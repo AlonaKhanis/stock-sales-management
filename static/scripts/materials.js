@@ -1,11 +1,5 @@
-
-'use strict';
-
 document.addEventListener('DOMContentLoaded', () => {
-    const materialNameDropdown = document.getElementById('material_name');
-    const colorDropdown = document.getElementById('color');
     const materialForm = document.getElementById('material-form');
-    const pricePerKgInput = document.getElementById('price_per_kg');
     const filterColor = document.getElementById('filterColor');
     const filterMaterial = document.getElementById('filterMaterial');
     const alertBox = createAlertBox(materialForm);
@@ -13,26 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const materialTableBody = document.querySelector("#materialTable tbody");
 
     let materials = [];
-
-    pricePerKgInput.value = 90;
-
-    const availableMaterials = getAvailableMaterials();
-    const availableColors = getAvailableColors();
-
-
-    availableMaterials.forEach(material => {
-        const option = document.createElement('option');
-        option.value = material;
-        option.textContent = material;
-        materialNameDropdown.appendChild(option);
-    });
-
-    availableColors.forEach(color => {
-        const option = document.createElement('option');
-        option.value = color;
-        option.textContent = color;
-        colorDropdown.appendChild(option);
-    });
 
     async function fetchMaterials() {
         try {
@@ -52,25 +26,75 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayMaterials(materialsToDisplay) {
         materialTableBody.innerHTML = '';
         materialsToDisplay.forEach(material => {
-
             const materialName = material.material_name || 'Unknown';
             const pricePerKg = material.price_per_kg || 'N/A';
-            const stockAmount = material.stock_amount || 0;
+            // Round the stockAmount to two decimal places for display
+            const stockAmount = material.stock_amount ? material.stock_amount.toFixed(3) : '0.00';
             const color = material.color || 'No color';
 
             const row = document.createElement('tr');
-
             row.innerHTML = `
                 <td>${materialName}</td>
-                <td>🪙${pricePerKg}/kg</td>
-                <td>${formatStockAmount(stockAmount)}</td>
+                <td>₪${pricePerKg}/kg</td>
+                <td>
+                    <span class="stock-amount" data-material-id="${material.id}">${stockAmount}</span>
+                    <input type="number" class="stock-input" data-material-id="${material.id}" placeholder="Enter amount" step="0.01" value="" />
+                    <button class="update-stock-btn" data-material-id="${material.id}">Update</button>
+                </td>
                 <td style="color: ${color};">${color}</td>
             `;
-
             materialTableBody.appendChild(row);
+        });
+
+        const updateStockButtons = document.querySelectorAll('.update-stock-btn');
+        updateStockButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const materialId = button.dataset.materialId;
+                const inputElement = document.querySelector(`.stock-input[data-material-id="${materialId}"]`);
+                const change = parseFloat(inputElement.value);
+                if (!isNaN(change)) {
+                    updateStock(materialId, change, inputElement);
+                } else {
+                    formAlert("Please enter a valid number!", alertBox);
+                }
+            });
         });
     }
 
+    async function updateStock(materialId, change, inputElement) {
+        const stockElement = document.querySelector(`.stock-amount[data-material-id="${materialId}"]`);
+        const currentStock = parseFloat(stockElement.textContent);
+        const newStockAmount = currentStock + change;
+
+
+        const roundedStockAmount = Math.max(newStockAmount, 0);
+        if (newStockAmount < 0) {
+            formAlert("Stock cannot be negative!", alertBox);
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/update-stock/${materialId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ stock_amount: change })
+            });
+
+            if (response.ok) {
+
+                const formattedStockAmount = roundedStockAmount.toFixed(3);
+                stockElement.textContent = formattedStockAmount;
+                inputElement.value = '';
+
+                formAlert("Stock updated successfully!", alertBox, "success");
+            } else {
+                const errorData = await response.json();
+                formAlert(`Error: ${errorData.error}`, alertBox);
+            }
+        } catch (error) {
+            formAlert(`Error: ${error.message}`, alertBox);
+        }
+    }
 
     function filterMaterials() {
         const colorFilter = filterColor.value.toLowerCase();
@@ -88,50 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
     filterColor.addEventListener('input', filterMaterials);
     filterMaterial.addEventListener('input', filterMaterials);
 
-    materialForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-
-        const materialName = materialNameDropdown.value;
-        const stockAmount = document.getElementById('stock_amount').value;
-        const color = colorDropdown.value;
-        const pricePerKg = pricePerKgInput.value;
-
-        const materialData = {
-            material_name: materialName,
-            stock_amount: stockAmount,
-            color: color,
-            price_per_kg: pricePerKg
-        };
-
-        try {
-            const response = await fetch('/api/add_material', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(materialData)
-            });
-
-            if (response.ok) {
-                fetchMaterials();
-                formAlert('Material added successfully!', alertBox, response);
-
-                materialForm.reset();
-                pricePerKgInput.value = 90;
-
-
-            } else {
-                const errorData = await response.json();
-                formAlert(`Error: ${errorData.error}`, alertBox, response);
-
-            }
-        } catch (error) {
-            formAlert(`Error: ${error.message}`, alertBox, { ok: false });
-
-        }
-
-    });
-
     fetchMaterials();
 
+    // Expose fetchMaterials to global scope
+    window.fetchMaterials = fetchMaterials;
 });

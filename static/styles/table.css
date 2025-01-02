@@ -162,3 +162,45 @@
 .mini_material-form {
   width: 400px;
 }
+
+.stock-input {
+  width: 120px;
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  text-align: right;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stock-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+.update-stock-btn {
+  padding: 10px 15px;
+  background-color: #28a745;
+  color: white;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.update-stock-btn:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+.update-stock-btn:active {
+  transform: translateY(1px);
+}
+
+.update-stock-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

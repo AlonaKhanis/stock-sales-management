@@ -71,3 +71,15 @@ def calculate_material_costs():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
+@material_bp.route('/update-stock/<int:stock_id>', methods=['PUT'])
+def update_stock(stock_id):
+    try:
+        data = request.get_json()
+        stock_amount = data.get('stock_amount')
+        response , status_code = Material.update_stock(stock_id , stock_amount)
+
+        return response , status_code
+    except Exception as e:
+        print(str(e))
+        return jsonify({'message': 'An error occurred while updating the stock.'}), 500
