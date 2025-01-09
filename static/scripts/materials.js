@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>₪${pricePerKg}/kg</td>
                 <td>
                     <span class="stock-amount" data-material-id="${material.id}">${stockAmount}</span>
-                    <input type="number" class="stock-input" data-material-id="${material.id}" placeholder="Enter amount" step="0.01" value="" />
+                    <input type="number" class="stock-input" data-material-id="${material.id}"  step="0.01" value="" />
                     <button class="update-stock-btn" data-material-id="${material.id}">Update</button>
                 </td>
                 <td style="color: ${color};">${color}</td>
@@ -114,6 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     fetchMaterials();
 
-    // Expose fetchMaterials to global scope
+
     window.fetchMaterials = fetchMaterials;
 });

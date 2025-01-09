@@ -36,7 +36,7 @@ def create_print():
 
             try:
                 material_usage_value = float(material_usage) 
-                print(material_usage_value)
+                
             except ValueError:
                 return jsonify({'error': f'Invalid material usage value for {material_name}'}), 400
 

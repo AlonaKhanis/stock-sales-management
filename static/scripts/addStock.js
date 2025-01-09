@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 modal.style.display = 'none';
                 formAlert('Material added successfully!', alertBox, { ok: true });
 
-                // Fetch and update the material list
+
                 if (typeof window.fetchMaterials === 'function') {
                     window.fetchMaterials();
                 }

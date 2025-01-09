@@ -5,9 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles/table.css') }}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles/edit.css') }}" />
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600&display=swap" rel="stylesheet">
+
   <title>Sales Management</title>
 </head>
 
@@ -21,10 +20,10 @@
     <span id="total-profit">0.00</span><br><br>
   </div>
 
-  <div class="material-form">
+  <div class="form-container">
     <div class="filters">
       <label for="filterModel">Filter by Model Name:</label>
-      <input type="text" id="filterModel" placeholder="Enter model name">
+      <input type="text" id="filterModel">
 
       <label for="filterMonth">Filter by Month:</label>
       <select id="filterMonth">
@@ -81,8 +80,9 @@
           <input type="number" id="editPrice"><br><br>
           <label for="editDate">Sale Date:</label>
           <input type="date" id="editDate"><br><br>
-          <button id="saveEditBtn" type="submit">Save Changes</button>
+
         </form>
+        <button id="saveEditBtn" type="submit">Save Changes</button>
         <button id="cancelEditBtn">Cancel</button>
       </div>
     </div>

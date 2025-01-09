@@ -50,7 +50,6 @@ function createAlertBox(form) {
     alertBox.style.padding = '10px';
     alertBox.style.marginTop = '10px';
     alertBox.style.borderRadius = '5px';
-    // form.insertBefore(alertBox, document.getElementById('model_name_label'));
     return alertBox;
 }
 

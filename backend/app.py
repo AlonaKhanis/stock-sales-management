@@ -38,9 +38,9 @@ with app.app_context():
 app.register_blueprint(material_bp, url_prefix='/api')
 app.register_blueprint(print_bp, url_prefix='/api')
 
-@app.route('/add_material')
+@app.route('/material')
 def add_material():
-    return render_template('add_material.html')
+    return render_template('material.html')
 
 @app.route('/sales')
 def sales():

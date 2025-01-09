@@ -21,13 +21,13 @@ def create_material():
     try:
         existing_material = Material.get_by_name_and_color(material_name, color)
         if existing_material:
-            # Update the stock amount and optionally price
+            
             existing_material.stock_amount += float(stock_amount)
             existing_material.price_per_kg = float(price_per_kg)
             existing_material.save()
             message = f"Stock updated for material '{material_name}' with color '{color}'."
         else:
-            # Create a new material
+            
             Material.add(material_name, stock_amount, color, price_per_kg)
             message = "Material created successfully."
 
