@@ -40,9 +40,8 @@ pip install -r requirements.txt
 ## How to Run
 **Option 1: Using app.exe (Recommended)**
 
-Start the Backend:
-
-Locate the app.exe file in the project folder.
+Navigate to the dist folder inside the project directory.
+Find the app.exe file.
 Double-click app.exe to start the backend server.
 You should see a console window indicating that the server is running.
 
