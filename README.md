@@ -28,7 +28,7 @@ If you wish to modify or run the backend Python script instead of the precompile
 Clone the Repository:
 
 ```bash
-git clone https://github.com/<your-username>/stock-sales-management.git
+git clone https://github.com/AlonaKhanis/stock-sales-management
 cd stock-sales-management
 ```
 Install Required Python Libraries (Optional):
